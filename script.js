@@ -164,11 +164,14 @@ function displayGrid(grid, gridSize) {
             const cell = document.createElement('input');
             cell.type = 'text';
             cell.maxLength = 1;
+            cell.disabled = true; // 사용자가 입력하지 못하도록 설정
+
             if (grid[y][x] !== '') {
-                cell.value = grid[y][x];
+                cell.value = grid[y][x]; // 단어가 있는 칸은 해당 문자를 표시
+                cell.style.backgroundColor = 'white'; // 단어가 있는 칸을 흰색으로 설정
             } else {
-                cell.className = 'black';
-                cell.disabled = true;
+                cell.className = 'black'; // 빈 칸을 검은색으로 설정
+                cell.style.backgroundColor = 'black';
             }
             crosswordGrid.appendChild(cell);
         }
@@ -176,6 +179,7 @@ function displayGrid(grid, gridSize) {
 
     container.appendChild(crosswordGrid);
 }
+
 
 function displayHints(wordsAndHints) {
     const container = document.getElementById('hintsContainer');
