@@ -80,6 +80,7 @@ function countIntersections(grid, word, row, col, horizontal) {
 }
 
 function canPlaceHorizontally(grid, word, row, col, gridSize) {
+    // 단어가 그리드를 벗어나는지 확인
     if (col + word.length > gridSize) return false;
 
     for (let i = 0; i < word.length; i++) {
@@ -91,6 +92,7 @@ function canPlaceHorizontally(grid, word, row, col, gridSize) {
 }
 
 function canPlaceVertically(grid, word, row, col, gridSize) {
+    // 단어가 그리드를 벗어나는지 확인
     if (row + word.length > gridSize) return false;
 
     for (let i = 0; i < word.length; i++) {
