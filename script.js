@@ -129,25 +129,29 @@ function canPlaceVertically(grid, word, row, col, gridSize) {
 
 function displayGrid(grid, gridSize) {
     const container = document.getElementById('crosswordContainer');
-    container.innerHTML = '';
+    container.innerHTML = ''; // 기존 그리드 초기화
 
     const crosswordGrid = document.createElement('div');
     crosswordGrid.className = 'grid';
+    crosswordGrid.style.display = 'grid';
     crosswordGrid.style.gridTemplateColumns = `repeat(${gridSize}, 30px)`;
     crosswordGrid.style.gridTemplateRows = `repeat(${gridSize}, 30px)`;
 
     for (let y = 0; y < gridSize; y++) {
         for (let x = 0; x < gridSize; x++) {
-            const cell = document.createElement('input');
-            cell.type = 'text';
-            cell.maxLength = 1;
-            cell.disabled = true;
+            const cell = document.createElement('div');
+            cell.className = 'cell';
+            cell.style.width = '30px';
+            cell.style.height = '30px';
+            cell.style.display = 'flex';
+            cell.style.alignItems = 'center';
+            cell.style.justifyContent = 'center';
+            cell.style.border = '1px solid #000';
 
             if (grid[y][x] !== '') {
-                cell.value = grid[y][x];
+                cell.textContent = grid[y][x];
                 cell.style.backgroundColor = 'white';
             } else {
-                cell.className = 'black';
                 cell.style.backgroundColor = 'black';
             }
             crosswordGrid.appendChild(cell);
@@ -156,6 +160,7 @@ function displayGrid(grid, gridSize) {
 
     container.appendChild(crosswordGrid);
 }
+
 
 function displayHints(wordsAndHints) {
     const container = document.getElementById('hintsContainer');
