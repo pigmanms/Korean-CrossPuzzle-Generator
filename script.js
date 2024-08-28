@@ -67,6 +67,17 @@ function countIntersections(grid, word, row, col, horizontal) {
     let intersections = 0;
 
     for (let i = 0; i < word.length; i++) {
+        // 범위 초과 검사
+        if (horizontal) {
+            if (col + i >= grid.length || grid[row][col + i] === undefined) {
+                return -1; // 그리드 범위를 초과하면 교차점 없음
+            }
+        } else {
+            if (row + i >= grid.length || grid[row + i][col] === undefined) {
+                return -1; // 그리드 범위를 초과하면 교차점 없음
+            }
+        }
+
         const currentChar = word[i];
         const gridChar = horizontal ? grid[row][col + i] : grid[row + i][col];
         
@@ -78,6 +89,7 @@ function countIntersections(grid, word, row, col, horizontal) {
     }
     return intersections;
 }
+
 
 function canPlaceHorizontally(grid, word, row, col, gridSize) {
     // 단어가 그리드를 벗어나는지 확인
