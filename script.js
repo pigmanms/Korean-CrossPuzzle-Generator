@@ -39,15 +39,19 @@ function placeWordsOptimized(grid, wordsAndHints, gridSize) {
         for (let row = 0; row < gridSize; row++) {
             for (let col = 0; col < gridSize; col++) {
                 let intersections = countIntersections(grid, word, row, col, true);
-                if (intersections > maxIntersections && canPlaceHorizontally(grid, word, row, col, gridSize)) {
-                    maxIntersections = intersections;
-                    bestPosition = { row, col, horizontal: true };
+                if (intersections >= 0 && canPlaceHorizontally(grid, word, row, col, gridSize)) {
+                    if (intersections > maxIntersections) {
+                        maxIntersections = intersections;
+                        bestPosition = { row, col, horizontal: true };
+                    }
                 }
 
                 intersections = countIntersections(grid, word, row, col, false);
-                if (intersections > maxIntersections && canPlaceVertically(grid, word, row, col, gridSize)) {
-                    maxIntersections = intersections;
-                    bestPosition = { row, col, horizontal: false };
+                if (intersections >= 0 && canPlaceVertically(grid, word, row, col, gridSize)) {
+                    if (intersections > maxIntersections) {
+                        maxIntersections = intersections;
+                        bestPosition = { row, col, horizontal: false };
+                    }
                 }
             }
         }
@@ -63,58 +67,6 @@ function placeWordsOptimized(grid, wordsAndHints, gridSize) {
     });
 }
 
-function countIntersections(grid, word, row, col, horizontal) {
-    let intersections = 0;
-
-    for (let i = 0; i < word.length; i++) {
-        // 범위 초과 검사
-        if (horizontal) {
-            if (col + i >= grid.length || grid[row][col + i] === undefined) {
-                return -1; // 그리드 범위를 초과하면 교차점 없음
-            }
-        } else {
-            if (row + i >= grid.length || grid[row + i][col] === undefined) {
-                return -1; // 그리드 범위를 초과하면 교차점 없음
-            }
-        }
-
-        const currentChar = word[i];
-        const gridChar = horizontal ? grid[row][col + i] : grid[row + i][col];
-        
-        if (gridChar === currentChar) {
-            intersections++;
-        } else if (gridChar !== '') {
-            return -1; // 충돌 발생 시 교차점 없음
-        }
-    }
-    return intersections;
-}
-
-
-function canPlaceHorizontally(grid, word, row, col, gridSize) {
-    // 단어가 그리드를 벗어나는지 확인
-    if (col + word.length > gridSize) return false;
-
-    for (let i = 0; i < word.length; i++) {
-        if (grid[row][col + i] !== '' && grid[row][col + i] !== word[i]) {
-            return false;
-        }
-    }
-    return true;
-}
-
-function canPlaceVertically(grid, word, row, col, gridSize) {
-    // 단어가 그리드를 벗어나는지 확인
-    if (row + word.length > gridSize) return false;
-
-    for (let i = 0; i < word.length; i++) {
-        if (grid[row + i][col] !== '' && grid[row + i][col] !== word[i]) {
-            return false;
-        }
-    }
-    return true;
-}
-
 function placeHorizontally(grid, word, row, col) {
     for (let i = 0; i < word.length; i++) {
         grid[row][col + i] = word[i];
@@ -127,24 +79,49 @@ function placeVertically(grid, word, row, col) {
     }
 }
 
-function validateGrid(grid) {
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid[i].length; j++) {
-            if (grid[i][j] === '') {
-                continue;
+function countIntersections(grid, word, row, col, horizontal) {
+    let intersections = 0;
+
+    for (let i = 0; i < word.length; i++) {
+        if (horizontal) {
+            if (col + i >= grid.length || grid[row][col + i] === undefined) {
+                return -1;  // 위치가 유효하지 않음
             }
-            // 가로로 붙어있는 글자들 확인
-            if (j > 0 && grid[i][j - 1] !== '' && j < grid[i].length - 1 && grid[i][j + 1] !== '') {
-                if (grid[i][j - 1] !== grid[i][j + 1]) {
-                    return false;
-                }
+        } else {
+            if (row + i >= grid.length || grid[row + i][col] === undefined) {
+                return -1;  // 위치가 유효하지 않음
             }
-            // 세로로 붙어있는 글자들 확인
-            if (i > 0 && grid[i - 1][j] !== '' && i < grid.length - 1 && grid[i + 1][j] !== '') {
-                if (grid[i - 1][j] !== grid[i + 1][j]) {
-                    return false;
-                }
-            }
+        }
+
+        const currentChar = word[i];
+        const gridChar = horizontal ? grid[row][col + i] : grid[row + i][col];
+        
+        if (gridChar === currentChar) {
+            intersections++;
+        } else if (gridChar !== '') {
+            return -1;  // 교차점에서 충돌 발생
+        }
+    }
+    return intersections;
+}
+
+function canPlaceHorizontally(grid, word, row, col, gridSize) {
+    if (col + word.length > gridSize) return false;  // 단어가 그리드를 넘지 않는지 확인
+
+    for (let i = 0; i < word.length; i++) {
+        if (grid[row][col + i] !== '' && grid[row][col + i] !== word[i]) {
+            return false;  // 다른 단어와 충돌하지 않는지 확인
+        }
+    }
+    return true;
+}
+
+function canPlaceVertically(grid, word, row, col, gridSize) {
+    if (row + word.length > gridSize) return false;  // 단어가 그리드를 넘지 않는지 확인
+
+    for (let i = 0; i < word.length; i++) {
+        if (grid[row + i][col] !== '' && grid[row + i][col] !== word[i]) {
+            return false;  // 다른 단어와 충돌하지 않는지 확인
         }
     }
     return true;
@@ -164,13 +141,13 @@ function displayGrid(grid, gridSize) {
             const cell = document.createElement('input');
             cell.type = 'text';
             cell.maxLength = 1;
-            cell.disabled = true; // 사용자가 입력하지 못하도록 설정
+            cell.disabled = true;
 
             if (grid[y][x] !== '') {
-                cell.value = grid[y][x]; // 단어가 있는 칸은 해당 문자를 표시
-                cell.style.backgroundColor = 'white'; // 단어가 있는 칸을 흰색으로 설정
+                cell.value = grid[y][x];
+                cell.style.backgroundColor = 'white';
             } else {
-                cell.className = 'black'; // 빈 칸을 검은색으로 설정
+                cell.className = 'black';
                 cell.style.backgroundColor = 'black';
             }
             crosswordGrid.appendChild(cell);
@@ -179,7 +156,6 @@ function displayGrid(grid, gridSize) {
 
     container.appendChild(crosswordGrid);
 }
-
 
 function displayHints(wordsAndHints) {
     const container = document.getElementById('hintsContainer');

@@ -6,8 +6,11 @@
 
 ## 접속법
 - 아래 링크들을 통하여 접속하실 수 있습니다, 링크하나가 제대로 작동이 안되면 다른 링크로 접속바랍니다, 접속이 안될경우 Github Issues에서 버그신고를 해주시기 바랍니다. 
+
 Azure 호스팅: https://lemon-coast-016056000.5.azurestaticapps.net
+
 Github Pages 호스팅: https://pigmanms.github.io/Korean-CrossPuzzle-Generator/
+
 ## 기능
 - 따로 프로그램을 다운받지 않고 웹사이트에서 바로 제작됩니다. 
 - 파일이 서버에서 저장되지 않습니다. 저희는 사용자의 프라이버시를 중시합니다. 
