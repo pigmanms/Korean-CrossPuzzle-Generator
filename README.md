@@ -1,4 +1,6 @@
-# Korean-CrossPuzzle-Generator
+<h1> Korean-CrossPuzzle-Generator </h1>
+
+
 ## 계기
 쌤: 아오 이거 가로세로퍼즐을 하나하나 직접만들어야되서 너무 힘드네, 이거 뭐 자동으로 만들어 주는 사이트 없나.. 
 
@@ -7,9 +9,9 @@
 ## 접속법
 - 아래 링크들을 통하여 접속하실 수 있습니다, 링크하나가 제대로 작동이 안되면 다른 링크로 접속바랍니다, 접속이 안될경우 Github Issues에서 버그신고를 해주시기 바랍니다. 
 
-Azure 호스팅: https://lemon-coast-016056000.5.azurestaticapps.net
+Azure 호스팅: <https://lemon-coast-016056000.5.azurestaticapps.net>
 
-Github Pages 호스팅: https://pigmanms.github.io/Korean-CrossPuzzle-Generator/
+Github Pages 호스팅: <https://pigmanms.github.io/Korean-CrossPuzzle-Generator/>
 
 ## 기능
 - 따로 프로그램을 다운받지 않고 웹사이트에서 바로 제작됩니다. 
@@ -22,3 +24,4 @@ Github Pages 호스팅: https://pigmanms.github.io/Korean-CrossPuzzle-Generator/
 
 
 MIT 라이센스가 적용되며 교육적인 목적으로 원작자출처를 밝힌다음 재배포, 수정 가능합니다.
+직접적인 문의는 <asktoms@kakao.com>으로 해주시면 감사하겠습니다
